@@ -1,0 +1,7 @@
+name: MinecraftUno
+version: '${version}'
+main: de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno
+api-version: 1.19
+authors: [Olfi01, Olgabrezel]
+description: A plugin that adds Uno as a playable card game into Minecraft
+depend: [GuiLib]

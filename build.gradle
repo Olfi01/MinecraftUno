@@ -1,0 +1,61 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java'
+}
+
+group = 'de.crazypokemondev.mcpaper.games'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven { url 'https://repo.codemc.io/repository/maven-releases/' }
+    maven {
+        name = 'jeff-media-public'
+        url = 'https://hub.jeff-media.com/nexus/repository/jeff-media-public/'
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.19.1-R0.1-SNAPSHOT'
+    compileOnly 'xyz.janboerman:GuiLib-Plugin:1.11.9'
+    compileClasspath 'com.github.markozajc:juno:2.3'
+    compileClasspath 'com.jeff_media:CustomBlockData:2.1.0'
+    runtimeClasspath 'com.jeff_media:CustomBlockData:2.1.0'
+}
+
+def targetJavaVersion = 17
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
+shadowJar {
+    relocate 'com.jeff_media.customblockdata', 'de.crazypokemondev.mcpaper.games.minecraftuno.customblockdata'
+}
