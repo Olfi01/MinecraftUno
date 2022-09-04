@@ -2,6 +2,7 @@ package de.crazypokemondev.mcpaper.games.minecraftuno.gui;
 
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.game.UnoGameLobby;
+import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.IconHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.LobbyMenuPlayer;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.Material;

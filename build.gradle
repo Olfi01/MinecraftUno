@@ -26,6 +26,7 @@ repositories {
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.19.1-R0.1-SNAPSHOT'
     compileOnly 'xyz.janboerman:GuiLib-Plugin:1.11.9'
+    compileOnly 'com.mojang:authlib:1.5.25'
     compileClasspath 'com.github.markozajc:juno:2.3'
     compileClasspath 'com.jeff_media:CustomBlockData:2.1.0'
     runtimeClasspath 'com.jeff_media:CustomBlockData:2.1.0'

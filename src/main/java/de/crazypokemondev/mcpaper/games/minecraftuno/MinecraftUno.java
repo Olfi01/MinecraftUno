@@ -1,5 +1,6 @@
 package de.crazypokemondev.mcpaper.games.minecraftuno;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import de.crazypokemondev.mcpaper.games.minecraftuno.game.UnoGameLobby;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.BlockPos;
 import de.crazypokemondev.mcpaper.games.minecraftuno.listeners.PlaceBlockListener;
@@ -29,13 +30,14 @@ public final class MinecraftUno extends JavaPlugin {
         GuiLibrary guiLibrary = (GuiLibrary) getServer().getPluginManager().getPlugin("GuiLib");
         guiListener = Objects.requireNonNull(guiLibrary).getGuiListener();
 
+        CustomBlockData.registerListener(this);
+
         getServer().getPluginManager().registerEvents(new PlaceBlockListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
     }
 
     @Override
     public void onDisable() {
-        INSTANCE = null;
-
+        // INSTANCE = null;
     }
 }

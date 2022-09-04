@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.HashMap;
@@ -21,12 +22,17 @@ import java.util.UUID;
 public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getHand() != EquipmentSlot.HAND) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK
+                || event.getHand() != EquipmentSlot.HAND
+                || event.getPlayer().isSneaking())
+            return;
         Block clicked = event.getClickedBlock();
         PersistentDataContainer customBlockData = new CustomBlockData(Objects.requireNonNull(clicked),
                 MinecraftUno.INSTANCE);
         NamespacedKey key = new NamespacedKey(MinecraftUno.INSTANCE, UnoConstants.METADATA_KEY);
         if (customBlockData.has(key)) {
+            clicked.getState().setMetadata(UnoConstants.METADATA_KEY,
+                    new FixedMetadataValue(MinecraftUno.INSTANCE, true));
             UUID worldUid = clicked.getWorld().getUID();
             BlockPos blockPos = new BlockPos(clicked.getX(), clicked.getY(), clicked.getZ());
             MinecraftUno plugin = MinecraftUno.INSTANCE;
