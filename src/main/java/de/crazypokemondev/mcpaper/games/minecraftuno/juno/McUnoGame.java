@@ -11,6 +11,7 @@ import com.github.markozajc.juno.players.impl.UnoStrategicPlayer;
 import com.github.markozajc.juno.rules.pack.UnoRulePack;
 import com.github.markozajc.juno.rules.pack.impl.UnoOfficialRules;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
+import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.Callback;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.LobbyMenuPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -42,11 +43,14 @@ public class McUnoGame extends UnoControlledGame {
     @NotNull
     @Override
     public UnoWinner play() {
+        getPlayers().forEach(player -> {
+            McUnoPlayer unoPlayer = ((McUnoPlayer) player);
+            unoPlayer.initUnoScreen(this);
+        });
         scheduler.runTask(MinecraftUno.INSTANCE, () -> getPlayers().forEach(player -> {
             McUnoPlayer unoPlayer = ((McUnoPlayer) player);
             Player mcPlayer = unoPlayer.getMcPlayer();
             mcPlayer.closeInventory(InventoryCloseEvent.Reason.OPEN_NEW);
-            unoPlayer.initUnoScreen(this);
             mcPlayer.openInventory(unoPlayer.getUnoScreen().getInventory());
         }));
         UnoWinner winner = super.play();

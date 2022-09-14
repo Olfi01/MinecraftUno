@@ -33,13 +33,14 @@ public class McUnoPlayer extends UnoPlayer {
     @Nullable
     @Override
     public UnoCard playCard(UnoGame game) {
+        unoScreen.update();
         unoScreen.setWaiting();
         synchronized (cardCallback) {
             while (!cardCallback.hasReturned()) {
                 try {
                     cardCallback.wait();
                 } catch (InterruptedException e) {
-                    game.endGame();
+                    e.printStackTrace();
                 }
             }
         }

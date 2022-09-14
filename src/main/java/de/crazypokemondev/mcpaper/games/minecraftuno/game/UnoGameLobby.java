@@ -35,7 +35,14 @@ public class UnoGameLobby {
             mcUnoPlayers.add(new McUnoPlayer(player.getPlayer()));
         }
         McUnoGame junoGame = new McUnoGame(mcUnoPlayers.toArray(new McUnoPlayer[0]));
-        Bukkit.getServer().getScheduler().runTaskAsynchronously(MinecraftUno.INSTANCE, junoGame::play);
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(MinecraftUno.INSTANCE, () -> {
+            try {
+                junoGame.play();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                MinecraftUno.LOGGER.error(ex);
+            }
+        });
         this.running = true;
     }
 

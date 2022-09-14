@@ -5,6 +5,8 @@ import de.crazypokemondev.mcpaper.games.minecraftuno.game.UnoGameLobby;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.BlockPos;
 import de.crazypokemondev.mcpaper.games.minecraftuno.listeners.PlaceBlockListener;
 import de.crazypokemondev.mcpaper.games.minecraftuno.listeners.PlayerInteractListener;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.janboerman.guilib.GuiLibrary;
 import xyz.janboerman.guilib.api.GuiListener;
@@ -23,6 +25,7 @@ public final class MinecraftUno extends JavaPlugin {
     }
 
     public static MinecraftUno INSTANCE;
+    public static final Logger LOGGER = LogManager.getLogger("uno");
 
     @Override
     public void onEnable() {

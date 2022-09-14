@@ -38,28 +38,31 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
             if (!players.hasNext()) break;
             setButton(i, new OpponentButton((McUnoPlayer) players.next()));
         }
+        this.pageButton = new ScrollButton(new ItemBuilder(Material.LADDER).name("1")
+                .changeMeta(meta -> meta.setCustomModelData(UnoConstants.CUSTOM_MODEL_DATA)).build(), 0);
+        setUnoCardButtons();
+        setButton(35, new ScrollButton(IconHelper.getSkullUp(), -1));
+        setButton(44, pageButton);
+        setButton(53, new ScrollButton(IconHelper.getSkullDown(), 1));
+    }
+
+    private void setUnoCardButtons() {
         Iterator<UnoCard> cards = player.getCards().iterator();
         for (int i = 0; i < cardOffset * 9; i++) {
             if (!iterator().hasNext()) break;
             cards.next();
         }
-        this.pageButton = new ScrollButton(new ItemBuilder(Material.LADDER).name("1")
-                .changeMeta(meta -> meta.setCustomModelData(UnoConstants.CUSTOM_MODEL_DATA)).build(), 0);
         for (int i = 27; i < 54; i++) {
-            if (!cards.hasNext()) break;
-            if (i == 35) {
-                setButton(i, new ScrollButton(IconHelper.getSkullUp(), -1));
-            } else if (i == 44) {
-                setButton(i, pageButton);
-            } else if (i == 53) {
-                setButton(i, new ScrollButton(IconHelper.getSkullDown(), 1));
-            } else {
+            if (i == 35 || i == 44 || i == 53) continue;
+            if (cards.hasNext())
                 setButton(i, new UnoCardButton(cards.next()));
-            }
+            else
+                unsetButton(i);
         }
     }
 
     public void update() {
+        setUnoCardButtons();
         getButtons().forEach(this::updateButton);
     }
 
@@ -68,11 +71,6 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
             button.update(game.getTopCard());
         } else if (b instanceof OpponentButton button) {
             button.update();
-        } else if (b instanceof UnoCardButton button) {
-            int cardIndex = cardOffset * 8 + i - 27;
-            if (i > 35) cardIndex--;
-            if (i > 44) cardIndex--;
-            if (cardIndex < player.getHandSize()) button.update(player.getHand().getCards().get(cardIndex));
         }
     }
 

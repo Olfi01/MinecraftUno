@@ -12,12 +12,15 @@ public class Callback<T> {
     }
 
     public void set(T object) {
-        if (object == null) returnedNull = true;
-        this.object = object;
+        synchronized (this) {
+            if (object == null) returnedNull = true;
+            this.object = object;
+            this.notifyAll();
+        }
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean hasReturned() {
-        return object != null && !returnedNull;
+        return object != null || returnedNull;
     }
 }
