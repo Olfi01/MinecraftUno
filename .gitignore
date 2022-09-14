@@ -116,3 +116,6 @@ run/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+# Gradle properties (local paths, only useful per machine)
+gradle.properties

@@ -28,6 +28,7 @@ dependencies {
     compileOnly 'xyz.janboerman:GuiLib-Plugin:1.11.9'
     compileOnly 'com.mojang:authlib:1.5.25'
     compileClasspath 'com.github.markozajc:juno:2.3'
+    runtimeClasspath 'com.github.markozajc:juno:2.3'
     compileClasspath 'com.jeff_media:CustomBlockData:2.1.0'
     runtimeClasspath 'com.jeff_media:CustomBlockData:2.1.0'
 }
@@ -59,4 +60,11 @@ processResources {
 
 shadowJar {
     relocate 'com.jeff_media.customblockdata', 'de.crazypokemondev.mcpaper.games.minecraftuno.customblockdata'
+}
+
+task deployForTest(type: Copy) {
+    from 'build/libs'
+    into local_plugin_path
+    include '*-all.jar'
+    dependsOn shadowJar
 }
