@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/carpet",
+  "textures": {
+    "wool": "minecraft:block/red_wool"
+  },
+  "overrides": [
+  {"predicate": {"custom_model_data":9211415}, "model": "uno:item/deck"}
+  ]
+}
