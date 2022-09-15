@@ -33,7 +33,7 @@ public class DestroyBlockListener implements Listener {
                 player.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
 
             World world = event.getBlock().getWorld();
-            Collection<Entity> entities = world.getNearbyEntitiesByType(ItemFrame.class, block.getLocation(), 1);
+            Collection<Entity> entities = world.getNearbyEntitiesByType(ItemFrame.class, block.getLocation(), 0.5);
             entities.stream().findAny().ifPresent(Entity::remove);
 
             state.removeMetadata(UnoConstants.METADATA_KEY, MinecraftUno.INSTANCE);
@@ -61,7 +61,7 @@ public class DestroyBlockListener implements Listener {
             block.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
             blockData.clear();
             Collection<ItemFrame> entities =
-                    block.getWorld().getNearbyEntitiesByType(ItemFrame.class, block.getLocation(), 1);
+                    block.getWorld().getNearbyEntitiesByType(ItemFrame.class, block.getLocation(), 0.5);
             entities.stream().filter(frame -> frame.getItem().isSimilar(ItemHelper.createUnoDeck())).forEach(Entity::remove);
         }
     }

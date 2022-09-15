@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -34,6 +35,7 @@ public class PlaceBlockListener implements Listener {
         Block block = event.getBlock();
         World world = block.getWorld();
         ItemFrame frame = (ItemFrame) world.spawnEntity(block.getLocation(), EntityType.ITEM_FRAME);
+        frame.setFacingDirection(BlockFace.UP);
         frame.setItem(ItemHelper.createUnoDeck(), false);
         frame.setFixed(true);
     }

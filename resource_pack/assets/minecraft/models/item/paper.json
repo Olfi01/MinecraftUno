@@ -54,10 +54,14 @@
   {"predicate": {"custom_model_data":9211420}, "model": "uno:item/green_skip"},
   {"predicate": {"custom_model_data":9211430}, "model": "uno:item/blue_skip"},
   {"predicate": {"custom_model_data":9211440}, "model": "uno:item/yellow_skip"},
-  {"predicate": {"custom_model_data":9211510}, "model": "uno:item/red_draw_2"},
-  {"predicate": {"custom_model_data":9211520}, "model": "uno:item/green_draw_2"},
-  {"predicate": {"custom_model_data":9211530}, "model": "uno:item/blue_draw_2"},
-  {"predicate": {"custom_model_data":9211540}, "model": "uno:item/yellow_draw_2"},
-  {"predicate": {"custom_model_data":9211550}, "model": "uno:item/wild_draw_4"}
+  {"predicate": {"custom_model_data":9211512}, "model": "uno:item/red_draw_2"},
+  {"predicate": {"custom_model_data":9211522}, "model": "uno:item/green_draw_2"},
+  {"predicate": {"custom_model_data":9211532}, "model": "uno:item/blue_draw_2"},
+  {"predicate": {"custom_model_data":9211542}, "model": "uno:item/yellow_draw_2"},
+  {"predicate": {"custom_model_data":9211514}, "model": "uno:item/wild_draw_4"},
+  {"predicate": {"custom_model_data":9211524}, "model": "uno:item/wild_draw_4"},
+  {"predicate": {"custom_model_data":9211534}, "model": "uno:item/wild_draw_4"},
+  {"predicate": {"custom_model_data":9211544}, "model": "uno:item/wild_draw_4"},
+  {"predicate": {"custom_model_data":9211554}, "model": "uno:item/wild_draw_4"}
   ]
 }

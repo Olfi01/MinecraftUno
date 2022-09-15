@@ -54,6 +54,10 @@ public class McUnoGame extends UnoControlledGame {
             mcPlayer.openInventory(unoPlayer.getUnoScreen().getInventory());
         }));
         UnoWinner winner = super.play();
+        getPlayers().forEach(player -> {
+            McUnoPlayer unoPlayer = ((McUnoPlayer) player);
+            unoPlayer.getUnoScreen().update();
+        });
         switch (winner.getEndReason()) {
             case REQUESTED:
                 onEvent("The game was aborted. Maybe someone left unexpectedly?");

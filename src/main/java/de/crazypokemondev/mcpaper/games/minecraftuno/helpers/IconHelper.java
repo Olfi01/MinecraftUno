@@ -36,8 +36,9 @@ public class IconHelper {
         } else if (c instanceof UnoSkipCard) {
             modelData += 400;
 
-        } else if (c instanceof UnoDrawCard) {
+        } else if (c instanceof UnoDrawCard card) {
             modelData += 500;
+            modelData += card.getAmount();
         }
         modelData += switch (c.getColor()) {
             case RED -> 10;
@@ -51,7 +52,7 @@ public class IconHelper {
 
     public static ItemStack getSkull(String url, String name) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        if(url.isEmpty())return head;
+        if(url.isEmpty()) return head;
 
 
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
@@ -73,10 +74,10 @@ public class IconHelper {
     }
 
     public static ItemStack getSkullUp() {
-        return getSkull("http://textures.minecraft.net/texture/9cdb8f43656c06c4e8683e2e6341b4479f157f48082fea4aff09b37ca3c6995b", "↑");
+        return getSkull("http://textures.minecraft.net/texture/9cdb8f43656c06c4e8683e2e6341b4479f157f48082fea4aff09b37ca3c6995b", "Scroll Up");
     }
 
     public static ItemStack getSkullDown() {
-        return getSkull("http://textures.minecraft.net/texture/61e1e730c77279c8e2e15d8b271a117e5e2ca93d25c8be3a00cc92a00cc0bb85", "↓");
+        return getSkull("http://textures.minecraft.net/texture/61e1e730c77279c8e2e15d8b271a117e5e2ca93d25c8be3a00cc92a00cc0bb85", "Scroll Down");
     }
 }

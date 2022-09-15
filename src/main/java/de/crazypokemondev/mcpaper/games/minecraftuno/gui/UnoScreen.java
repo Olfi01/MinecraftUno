@@ -105,13 +105,20 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
 
         public OpponentButton(McUnoPlayer player) {
             this.player = player;
+
+            int amount = player.getHandSize();
+            if (amount < 1) amount = 1;
+
             icon = new ItemBuilder(Material.PLAYER_HEAD).name(player.getName())
                     .changeMeta((SkullMeta meta) -> meta.setOwningPlayer(player.getMcPlayer()))
-                    .amount(player.getHandSize()).build();
+                    .amount(amount).build();
         }
 
         public void update() {
-            icon.setAmount(player.getHandSize());
+            int amount = player.getHandSize();
+            if (amount < 1) amount = 1;
+
+            icon.setAmount(amount);
             setIcon(icon);
         }
     }
