@@ -3,8 +3,10 @@ package de.crazypokemondev.mcpaper.games.minecraftuno.listeners;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -21,14 +23,11 @@ public class PlaceBlockListener implements Listener {
         if (!isUnoDeck(inHand)) return;
         Block blockPlaced = event.getBlockPlaced();
         PersistentDataContainer customBlockData = new CustomBlockData(blockPlaced, MinecraftUno.INSTANCE);
-        NamespacedKey key = new NamespacedKey(MinecraftUno.INSTANCE, UnoConstants.METADATA_KEY);
-        customBlockData.set(key, PersistentDataType.BYTE, (byte)1);
-        blockPlaced.getState().setMetadata(UnoConstants.METADATA_KEY,
-                new FixedMetadataValue(MinecraftUno.INSTANCE, true));
+        customBlockData.set(UnoConstants.NAMESPACED_KEY, PersistentDataType.BYTE, (byte)1);
     }
 
     private boolean isUnoDeck(ItemStack inHand) {
-        return inHand.getItemMeta().hasCustomModelData()
+        return inHand.getType() == Material.RED_CARPET && inHand.getItemMeta().hasCustomModelData()
                 && inHand.getItemMeta().getCustomModelData() == UnoConstants.CUSTOM_MODEL_DATA;
     }
 }

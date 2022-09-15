@@ -29,10 +29,7 @@ public class PlayerInteractListener implements Listener {
         Block clicked = event.getClickedBlock();
         PersistentDataContainer customBlockData = new CustomBlockData(Objects.requireNonNull(clicked),
                 MinecraftUno.INSTANCE);
-        NamespacedKey key = new NamespacedKey(MinecraftUno.INSTANCE, UnoConstants.METADATA_KEY);
-        if (customBlockData.has(key)) {
-            clicked.getState().setMetadata(UnoConstants.METADATA_KEY,
-                    new FixedMetadataValue(MinecraftUno.INSTANCE, true));
+        if (customBlockData.has(UnoConstants.NAMESPACED_KEY)) {
             UUID worldUid = clicked.getWorld().getUID();
             BlockPos blockPos = new BlockPos(clicked.getX(), clicked.getY(), clicked.getZ());
             MinecraftUno plugin = MinecraftUno.INSTANCE;

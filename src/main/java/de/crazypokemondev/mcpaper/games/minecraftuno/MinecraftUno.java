@@ -3,6 +3,7 @@ package de.crazypokemondev.mcpaper.games.minecraftuno;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.crazypokemondev.mcpaper.games.minecraftuno.game.UnoGameLobby;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.BlockPos;
+import de.crazypokemondev.mcpaper.games.minecraftuno.listeners.DestroyBlockListener;
 import de.crazypokemondev.mcpaper.games.minecraftuno.listeners.PlaceBlockListener;
 import de.crazypokemondev.mcpaper.games.minecraftuno.listeners.PlayerInteractListener;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +38,7 @@ public final class MinecraftUno extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlaceBlockListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new DestroyBlockListener(), this);
     }
 
     @Override
