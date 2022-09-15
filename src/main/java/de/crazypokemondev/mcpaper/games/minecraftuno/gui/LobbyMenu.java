@@ -54,6 +54,7 @@ public class LobbyMenu extends MenuHolder<MinecraftUno> {
                 }
             }
         }
+
     }
 
     @Override
@@ -78,6 +79,7 @@ public class LobbyMenu extends MenuHolder<MinecraftUno> {
             players.forEach(player -> {
                 if (player.getPlayer().getUniqueId().equals(whoClicked)) player.setReady(isEnabled());
             });
+            update();
         }
 
         @Override

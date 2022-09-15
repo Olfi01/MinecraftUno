@@ -22,3 +22,5 @@ being able to go AFK from a game for a certain time?
 ### Game should end after win
 
 ### Everyone should be able to see the cards during the very first turn
+
+### Item frame should be invisible while still showing the uno deck inside
