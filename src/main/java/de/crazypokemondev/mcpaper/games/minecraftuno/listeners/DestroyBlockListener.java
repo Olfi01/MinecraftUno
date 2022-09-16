@@ -5,6 +5,7 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import com.jeff_media.customblockdata.events.CustomBlockDataEvent;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ItemHelper;
+import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ArmorStandHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -33,14 +34,7 @@ public class DestroyBlockListener implements Listener {
             if (player.getGameMode() != GameMode.CREATIVE)
                 player.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
 
-            Location armorStandLoc = block.getLocation().add(0.5, -1.1, 1.25);
-            Collection<ArmorStand> entities =
-                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, armorStandLoc, 0.5);
-
-            entities.stream()
-                    .filter(stand -> stand.isMarker() &&
-                                     stand.getItem(EquipmentSlot.HEAD).isSimilar(ItemHelper.createUnoDeckArmorStand()))
-                    .forEach(Entity::remove);
+            ArmorStandHelper.removeArmorStands(block.getWorld(), block.getLocation());
 
             state.removeMetadata(UnoConstants.METADATA_KEY, MinecraftUno.INSTANCE);
             state.update();
@@ -67,14 +61,7 @@ public class DestroyBlockListener implements Listener {
             block.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
             blockData.clear();
 
-            Location armorStandLoc = block.getLocation().add(0.5, -1.1, 1.25);
-            Collection<ArmorStand> entities =
-                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, armorStandLoc, 0.5);
-
-            entities.stream()
-                    .filter(stand -> stand.isMarker() &&
-                                     stand.getItem(EquipmentSlot.HEAD).isSimilar(ItemHelper.createUnoDeckArmorStand()))
-                    .forEach(Entity::remove);
+            ArmorStandHelper.removeArmorStands(block.getWorld(), block.getLocation());
         }
     }
 }

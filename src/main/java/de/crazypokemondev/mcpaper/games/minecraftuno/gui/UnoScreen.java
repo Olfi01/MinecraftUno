@@ -25,12 +25,17 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
     private final ScrollButton pageButton;
     private int cardOffset = 0;
     private boolean waitingForAction = false;
+    private final WaitingIndicatorButton waitingButton;
 
     public UnoScreen(McUnoGame game, McUnoPlayer player) {
         super(MinecraftUno.INSTANCE, 54, "UNO");
         this.game = game;
         this.player = player;
 
+        waitingButton = new WaitingIndicatorButton();
+        for (int i = 0; i < 9; i++) {
+            setButton(i, waitingButton);
+        }
         setButton(12, new DrawPileButton());
         setButton(14, new DiscardPileButton());
         Iterator<UnoPlayer> players = game.getPlayers().iterator();
@@ -74,6 +79,16 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
         }
     }
 
+    public void setWaiting() {
+        this.waitingForAction = true;
+        waitingButton.update();
+    }
+
+    private void stopWaiting() {
+        this.waitingForAction = false;
+        waitingButton.update();
+    }
+
     private class DrawPileButton extends ItemButton<UnoScreen> {
         public DrawPileButton() {
             ItemStack icon = new ItemBuilder(Material.PAPER).name("Draw")
@@ -85,7 +100,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
         public void onClick(UnoScreen holder, InventoryClickEvent event) {
             if (!waitingForAction) return;
             player.sendCardCallback(null);
-            waitingForAction = false;
+            stopWaiting();
         }
     }
 
@@ -153,7 +168,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
         public void onClick(UnoScreen holder, InventoryClickEvent event) {
             if (!waitingForAction) return;
             player.sendCardCallback(card);
-            waitingForAction = false;
+            stopWaiting();
         }
 
         public void update(UnoCard card) {
@@ -162,8 +177,16 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
         }
     }
 
-    public void setWaiting() {
-        this.waitingForAction = true;
+    private class WaitingIndicatorButton extends ItemButton<UnoScreen> {
+        ItemStack notWaitingIcon = new ItemBuilder(Material.RED_CONCRETE).name("Not your turn").build();
+        ItemStack waitingIcon = new ItemBuilder(Material.LIME_CONCRETE).name("Your turn").build();
+        public WaitingIndicatorButton() {
+            setIcon(notWaitingIcon);
+        }
+
+        public void update() {
+            setIcon(waitingForAction ? waitingIcon : notWaitingIcon);
+        }
     }
 
 }

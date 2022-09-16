@@ -8,9 +8,9 @@ import de.crazypokemondev.mcpaper.games.minecraftuno.juno.McUnoGame;
 import de.crazypokemondev.mcpaper.games.minecraftuno.juno.McUnoPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -23,29 +23,36 @@ import java.util.*;
 
 public class UnoGameLobby {
     private final Set<LobbyMenuPlayer> players = new HashSet<>();
+    private final List<McUnoPlayer> mcUnoPlayers = new ArrayList<>();
     private final StartGameButton startGameButton = new StartGameButton();
+    private final ArmorStand armorStand;
 
     private boolean running;
 
-    public void join(Player player) {
-        if (this.running) return;
-        LobbyMenu lobbyMenu = new LobbyMenu(players, this);
-        players.add(new LobbyMenuPlayer(player, false, lobbyMenu));
-        player.openInventory(lobbyMenu.getInventory());
-        players.forEach(lobbyPlayer -> lobbyPlayer.getLobbyMenu().update());
+    public UnoGameLobby(ArmorStand armorStand) {
+        this.armorStand = armorStand;
     }
 
-    public void spectate(Player player) {
-        // TODO: open GUI to spectate UNO game
+    public void join(Player player) {
+        if (this.running){
+            Optional<McUnoPlayer> present = mcUnoPlayers.stream().filter(p -> p.getMcPlayer().getUniqueId().equals(player.getUniqueId()))
+                    .findAny();
+            present.ifPresent(p -> player.openInventory(p.getUnoScreen().getInventory()));
+        } else {
+            LobbyMenu lobbyMenu = new LobbyMenu(players, this);
+            players.add(new LobbyMenuPlayer(player, false, lobbyMenu));
+            player.openInventory(lobbyMenu.getInventory());
+            players.forEach(lobbyPlayer -> lobbyPlayer.getLobbyMenu().update());
+        }
     }
 
     public void start() {
         if (players.stream().anyMatch(player -> !player.isReady()) || players.size() < 2 || players.size() > 10) return;
-        List<McUnoPlayer> mcUnoPlayers = new ArrayList<>();
+        mcUnoPlayers.clear();
         for (LobbyMenuPlayer player : players) {
             mcUnoPlayers.add(new McUnoPlayer(player.getPlayer()));
         }
-        McUnoGame junoGame = new McUnoGame(mcUnoPlayers.toArray(new McUnoPlayer[0]));
+        McUnoGame junoGame = new McUnoGame(armorStand, mcUnoPlayers.toArray(new McUnoPlayer[0]));
         Bukkit.getServer().getScheduler().runTaskAsynchronously(MinecraftUno.INSTANCE, () -> {
             try {
                 junoGame.play();
@@ -53,12 +60,10 @@ public class UnoGameLobby {
                 ex.printStackTrace();
                 MinecraftUno.LOGGER.error(ex);
             }
+            this.running = false;
+            this.players.clear();
         });
         this.running = true;
-    }
-
-    public boolean isRunning() {
-        return running;
     }
 
     public StartGameButton getStartGameButton() {

@@ -3,6 +3,7 @@ package de.crazypokemondev.mcpaper.games.minecraftuno.listeners;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ItemHelper;
+import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ArmorStandHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,19 +33,8 @@ public class PlaceBlockListener implements Listener {
 
         Block block = event.getBlock();
         World world = block.getWorld();
-
-        Location armorStandLoc = block.getLocation().add(0.5, -1.1, 1.25);
-
-        ArmorStand armorStand = (ArmorStand)world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND);
-        armorStand.setHeadPose(new EulerAngle(-Math.PI / 2, 0, 0));
-        armorStand.setItem(EquipmentSlot.HEAD, ItemHelper.createUnoDeckArmorStand());
-
-        armorStand.setInvisible(true);
-        armorStand.setMarker(true);
-        armorStand.setInvulnerable(true);
-        armorStand.setGravity(false);
-        armorStand.setPersistent(true);
-        armorStand.setSilent(true);
+        Location blockLoc = block.getLocation();
+        ArmorStandHelper.createArmorStand(world, blockLoc);
     }
 
     private boolean isUnoDeck(ItemStack inHand) {

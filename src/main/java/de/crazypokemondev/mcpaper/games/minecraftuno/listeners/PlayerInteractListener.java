@@ -3,6 +3,7 @@ package de.crazypokemondev.mcpaper.games.minecraftuno.listeners;
 import com.jeff_media.customblockdata.CustomBlockData;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.game.UnoGameLobby;
+import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ArmorStandHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.BlockPos;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.NamespacedKey;
@@ -37,14 +38,11 @@ public class PlayerInteractListener implements Listener {
                 plugin.lobbies.put(worldUid, new HashMap<>());
             }
             if (!plugin.lobbies.get(worldUid).containsKey(blockPos)) {
-                plugin.lobbies.get(worldUid).put(blockPos, new UnoGameLobby());
+                plugin.lobbies.get(worldUid).put(blockPos, new UnoGameLobby(ArmorStandHelper.getAnyArmorStand(
+                        event.getClickedBlock().getWorld(), event.getClickedBlock().getLocation())));
             }
             UnoGameLobby lobby = plugin.lobbies.get(worldUid).get(blockPos);
-            if (!lobby.isRunning()) {
-                lobby.join(event.getPlayer());
-            } else {
-                lobby.spectate(event.getPlayer());
-            }
+            lobby.join(event.getPlayer());
         }
     }
 }

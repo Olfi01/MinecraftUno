@@ -53,7 +53,7 @@ public class LobbyMenuPlayer {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof LobbyMenuPlayer)) return false;
-        return ((LobbyMenuPlayer) obj).getPlayer().getUniqueId() == this.getPlayer().getUniqueId();
+        return ((LobbyMenuPlayer) obj).getPlayer().getUniqueId().equals(this.getPlayer().getUniqueId());
     }
 
     @Override
