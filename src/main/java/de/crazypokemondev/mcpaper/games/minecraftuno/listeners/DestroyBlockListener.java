@@ -8,7 +8,6 @@ import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ItemHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.*;
@@ -17,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Collection;
@@ -32,9 +32,13 @@ public class DestroyBlockListener implements Listener {
             if (player.getGameMode() != GameMode.CREATIVE)
                 player.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
 
-            World world = event.getBlock().getWorld();
-            Collection<Entity> entities = world.getNearbyEntitiesByType(ItemFrame.class, block.getLocation(), 0.5);
-            entities.stream().findAny().ifPresent(Entity::remove);
+            Collection<ArmorStand> entities =
+                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, block.getLocation(), 2.0);
+
+            entities.stream()
+                    .filter(stand -> stand.isMarker() &&
+                                     stand.getItem(EquipmentSlot.HEAD).isSimilar(ItemHelper.createUnoDeck()))
+                    .forEach(Entity::remove);
 
             state.removeMetadata(UnoConstants.METADATA_KEY, MinecraftUno.INSTANCE);
             state.update();
@@ -60,9 +64,14 @@ public class DestroyBlockListener implements Listener {
             block.setType(Material.AIR);
             block.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
             blockData.clear();
-            Collection<ItemFrame> entities =
-                    block.getWorld().getNearbyEntitiesByType(ItemFrame.class, block.getLocation(), 0.5);
-            entities.stream().filter(frame -> frame.getItem().isSimilar(ItemHelper.createUnoDeck())).forEach(Entity::remove);
+
+            Collection<ArmorStand> entities =
+                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, block.getLocation(), 2.0);
+
+            entities.stream()
+                    .filter(stand -> stand.isMarker() &&
+                                     stand.getItem(EquipmentSlot.HEAD).isSimilar(ItemHelper.createUnoDeck()))
+                    .forEach(Entity::remove);
         }
     }
 }

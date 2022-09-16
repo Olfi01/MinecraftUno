@@ -4,22 +4,20 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ItemHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.EulerAngle;
 
 public class PlaceBlockListener implements Listener {
 
@@ -34,10 +32,19 @@ public class PlaceBlockListener implements Listener {
 
         Block block = event.getBlock();
         World world = block.getWorld();
-        ItemFrame frame = (ItemFrame) world.spawnEntity(block.getLocation(), EntityType.ITEM_FRAME);
-        frame.setFacingDirection(BlockFace.UP);
-        frame.setItem(ItemHelper.createUnoDeck(), false);
-        frame.setFixed(true);
+
+        Location armorStandLoc = block.getLocation().add(0, -1.65, -0.25);
+
+        ArmorStand armorStand = (ArmorStand)world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND);
+        armorStand.setHeadPose(new EulerAngle(90, 0, 0));
+        armorStand.setItem(EquipmentSlot.HEAD, ItemHelper.createUnoDeck());
+
+        armorStand.setInvisible(true);
+        armorStand.setMarker(true);
+        armorStand.setInvulnerable(true);
+        armorStand.setGravity(false);
+        armorStand.setPersistent(true);
+        armorStand.setSilent(true);
     }
 
     private boolean isUnoDeck(ItemStack inHand) {
