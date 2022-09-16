@@ -92,6 +92,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
 
     public void setFinished() {
         this.finished = true;
+        waitingButton.update();
     }
 
     private class DrawPileButton extends ItemButton<UnoScreen> {
@@ -191,7 +192,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
         }
 
         public void update() {
-            setIcon(finished ? finishedIcon : waitingForAction ? waitingIcon : notWaitingIcon);
+            setIcon(finished ? finishedIcon : (waitingForAction ? waitingIcon : notWaitingIcon));
         }
     }
 
