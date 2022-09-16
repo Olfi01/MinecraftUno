@@ -7,6 +7,7 @@ import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ItemHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -32,8 +33,9 @@ public class DestroyBlockListener implements Listener {
             if (player.getGameMode() != GameMode.CREATIVE)
                 player.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
 
+            Location armorStandLoc = block.getLocation().add(0, -1.65, -0.25);
             Collection<ArmorStand> entities =
-                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, block.getLocation(), 2.0);
+                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, armorStandLoc, 0.5);
 
             entities.stream()
                     .filter(stand -> stand.isMarker() &&
@@ -65,8 +67,9 @@ public class DestroyBlockListener implements Listener {
             block.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
             blockData.clear();
 
+            Location armorStandLoc = block.getLocation().add(0, -1.65, -0.25);
             Collection<ArmorStand> entities =
-                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, block.getLocation(), 2.0);
+                    block.getWorld().getNearbyEntitiesByType(ArmorStand.class, armorStandLoc, 0.5);
 
             entities.stream()
                     .filter(stand -> stand.isMarker() &&
