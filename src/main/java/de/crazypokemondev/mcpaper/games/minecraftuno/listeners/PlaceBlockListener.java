@@ -33,11 +33,11 @@ public class PlaceBlockListener implements Listener {
         Block block = event.getBlock();
         World world = block.getWorld();
 
-        Location armorStandLoc = block.getLocation().add(0, -1.65, -0.25);
+        Location armorStandLoc = block.getLocation().add(0.5, -1.1, 1.25);
 
         ArmorStand armorStand = (ArmorStand)world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND);
-        armorStand.setHeadPose(new EulerAngle(90, 0, 0));
-        armorStand.setItem(EquipmentSlot.HEAD, ItemHelper.createUnoDeck());
+        armorStand.setHeadPose(new EulerAngle(-Math.PI / 2, 0, 0));
+        armorStand.setItem(EquipmentSlot.HEAD, ItemHelper.createUnoDeckArmorStand());
 
         armorStand.setInvisible(true);
         armorStand.setMarker(true);
