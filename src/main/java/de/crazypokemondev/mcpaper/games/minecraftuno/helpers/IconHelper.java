@@ -37,8 +37,10 @@ public class IconHelper {
             modelData += 400;
 
         } else if (c instanceof UnoDrawCard card) {
-            modelData += 500;
-            modelData += card.getAmount();
+            if (card.getAmount() == 2)
+                modelData += 500;
+            else
+                modelData += 600;
         }
         modelData += switch (c.getColor()) {
             case RED -> 10;
