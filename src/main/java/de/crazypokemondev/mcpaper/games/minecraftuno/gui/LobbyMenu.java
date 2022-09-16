@@ -48,7 +48,9 @@ public class LobbyMenu extends MenuHolder<MinecraftUno> {
         for (int row = 1; row <= 2; row++) {
             for (int col = 2; col < 7; col++) {
                 if (iterator.hasNext()) {
-                    setButton(row * 9 + col, iterator.next().getPlayerButton());
+                    LobbyMenuPlayer.PlayerButton playerButton = iterator.next().getPlayerButton();
+                    setButton(row * 9 + col, playerButton);
+                    playerButton.setIcon(playerButton.getIcon());
                 } else {
                     unsetButton(row * 9 + col);
                 }

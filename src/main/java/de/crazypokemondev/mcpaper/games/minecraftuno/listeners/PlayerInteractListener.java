@@ -8,6 +8,7 @@ import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.BlockPos;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -31,8 +32,9 @@ public class PlayerInteractListener implements Listener {
         PersistentDataContainer customBlockData = new CustomBlockData(Objects.requireNonNull(clicked),
                 MinecraftUno.INSTANCE);
         if (customBlockData.has(UnoConstants.NAMESPACED_KEY)) {
+            event.setUseItemInHand(Event.Result.DENY);
             UUID worldUid = clicked.getWorld().getUID();
-            BlockPos blockPos = new BlockPos(clicked.getX(), clicked.getY(), clicked.getZ());
+            BlockPos blockPos = new BlockPos(clicked);
             MinecraftUno plugin = MinecraftUno.INSTANCE;
             if (!plugin.lobbies.containsKey(worldUid)) {
                 plugin.lobbies.put(worldUid, new HashMap<>());

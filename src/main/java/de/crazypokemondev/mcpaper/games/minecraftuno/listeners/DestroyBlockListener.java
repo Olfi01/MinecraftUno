@@ -4,64 +4,104 @@ import com.destroystokyo.paper.event.block.BlockDestroyEvent;
 import com.jeff_media.customblockdata.CustomBlockData;
 import com.jeff_media.customblockdata.events.CustomBlockDataEvent;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
+import de.crazypokemondev.mcpaper.games.minecraftuno.game.UnoGameLobby;
+import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.BlockPos;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ItemHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ArmorStandHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.UnoConstants;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Collection;
+import java.util.Map;
 
 public class DestroyBlockListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onDestroyedBlock(BlockDropItemEvent event) {
-        Block block = event.getBlock();
-        BlockState state = block.getState();
-        if (state.hasMetadata(UnoConstants.METADATA_KEY)) {
-            event.setCancelled(true);
-            Player player = event.getPlayer();
-            if (player.getGameMode() != GameMode.CREATIVE)
-                player.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
-
-            ArmorStandHelper.removeArmorStands(block.getWorld(), block.getLocation());
-
-            state.removeMetadata(UnoConstants.METADATA_KEY, MinecraftUno.INSTANCE);
-            state.update();
-        }
-    }
-
-    @EventHandler
-    public void onBlockDataRemoved(CustomBlockDataEvent event) {
-        if (event.getBukkitEvent() instanceof BlockBreakEvent
-                && event.getCustomBlockData().has(UnoConstants.NAMESPACED_KEY)) {
-            BlockState state = event.getBlock().getState();
-            state.setMetadata(UnoConstants.METADATA_KEY, new FixedMetadataValue(MinecraftUno.INSTANCE, true));
-            state.update();
+    public void onDestroyedBlock(BlockBreakEvent event) {
+        if (cleanGameForBrokenTable(event.getBlock(), !event.getPlayer().getGameMode().equals(GameMode.CREATIVE))) {
+            event.setDropItems(false);
         }
     }
 
     @EventHandler
     public void onDestroyedBlock(BlockDestroyEvent event) {
-        CustomBlockData blockData = new CustomBlockData(event.getBlock(), MinecraftUno.INSTANCE);
-        if (blockData.has(UnoConstants.NAMESPACED_KEY) && event.willDrop()) {
+        if (cleanGameForBrokenTable(event.getBlock(), true)) {
             event.setCancelled(true);
-            Block block = event.getBlock();
+        }
+    }
+
+    @EventHandler
+    public void onBlockBurn(BlockBurnEvent event) {
+        cleanGameForBrokenTable(event.getBlock(), false);
+    }
+
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event) {
+        event.blockList().forEach(block -> cleanGameForBrokenTable(block, false));
+    }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        event.blockList().forEach(block -> cleanGameForBrokenTable(block, false));
+    }
+
+    @EventHandler
+    public void onFromTo(BlockFromToEvent event) {
+        Block blockTo = event.getToBlock();
+        CustomBlockData blockData = new CustomBlockData(blockTo, MinecraftUno.INSTANCE);
+        if (blockData.has(UnoConstants.NAMESPACED_KEY)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPistonExtend(BlockPistonExtendEvent event) {
+        event.getBlocks().forEach(block -> {
+            CustomBlockData blockData = new CustomBlockData(block, MinecraftUno.INSTANCE);
+            if (blockData.has(UnoConstants.NAMESPACED_KEY)) {
+                event.setCancelled(true);
+            }
+        });
+    }
+
+    @EventHandler
+    public void onPistonRetract(BlockPistonRetractEvent event) {
+        event.getBlocks().forEach(block -> {
+            CustomBlockData blockData = new CustomBlockData(block, MinecraftUno.INSTANCE);
+            if (blockData.has(UnoConstants.NAMESPACED_KEY)) {
+                event.setCancelled(true);
+            }
+        });
+    }
+
+
+    private static boolean cleanGameForBrokenTable(Block block, boolean dropItem) {
+        CustomBlockData blockData = new CustomBlockData(block, MinecraftUno.INSTANCE);
+        if (blockData.has(UnoConstants.NAMESPACED_KEY)) {
             block.setType(Material.AIR);
-            block.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
+            if (dropItem) block.getWorld().dropItemNaturally(block.getLocation(), ItemHelper.createUnoDeck());
             blockData.clear();
 
-            ArmorStandHelper.removeArmorStands(block.getWorld(), block.getLocation());
+            World world = block.getWorld();
+            ArmorStandHelper.removeArmorStands(world, block.getLocation());
+
+            Map<BlockPos, UnoGameLobby> lobbies = MinecraftUno.INSTANCE.lobbies.get(world.getUID());
+            if (lobbies != null) lobbies.remove(new BlockPos(block));
+
+            return true;
         }
+        return false;
     }
 }

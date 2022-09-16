@@ -73,7 +73,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
 
     private void updateButton(int i, MenuButton<?> b) {
         if (b instanceof DiscardPileButton button) {
-            button.update(game.getTopCard());
+            button.update(game.getDiscard().getTop());
         } else if (b instanceof OpponentButton button) {
             button.update();
         }
@@ -106,7 +106,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
 
     private class DiscardPileButton extends ItemButton<UnoScreen> {
         public DiscardPileButton() {
-            super(IconHelper.fromCard(game.getTopCard()));
+            super(IconHelper.fromCard(game.getDiscard().getTop()));
         }
 
         public void update(UnoCard card) {

@@ -62,10 +62,10 @@
   {"predicate": {"custom_model_data":9211520}, "model": "uno:item/green_draw_2"},
   {"predicate": {"custom_model_data":9211530}, "model": "uno:item/blue_draw_2"},
   {"predicate": {"custom_model_data":9211540}, "model": "uno:item/yellow_draw_2"},
-  {"predicate": {"custom_model_data":9211610}, "model": "uno:item/wild_draw_4"},
-  {"predicate": {"custom_model_data":9211620}, "model": "uno:item/wild_draw_4"},
-  {"predicate": {"custom_model_data":9211630}, "model": "uno:item/wild_draw_4"},
-  {"predicate": {"custom_model_data":9211640}, "model": "uno:item/wild_draw_4"},
+  {"predicate": {"custom_model_data":9211610}, "model": "uno:item/wild_draw_4_red"},
+  {"predicate": {"custom_model_data":9211620}, "model": "uno:item/wild_draw_4_green"},
+  {"predicate": {"custom_model_data":9211630}, "model": "uno:item/wild_draw_4_blue"},
+  {"predicate": {"custom_model_data":9211640}, "model": "uno:item/wild_draw_4_yellow"},
   {"predicate": {"custom_model_data":9211650}, "model": "uno:item/wild_draw_4"},
   {"predicate": {"custom_model_data":9211999}, "model": "uno:item/deck"}
   ]

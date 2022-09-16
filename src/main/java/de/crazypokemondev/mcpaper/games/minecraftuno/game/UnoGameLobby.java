@@ -38,7 +38,7 @@ public class UnoGameLobby {
             Optional<McUnoPlayer> present = mcUnoPlayers.stream().filter(p -> p.getMcPlayer().getUniqueId().equals(player.getUniqueId()))
                     .findAny();
             present.ifPresent(p -> player.openInventory(p.getUnoScreen().getInventory()));
-        } else {
+        } else if (players.size() < 9) {
             LobbyMenu lobbyMenu = new LobbyMenu(players, this);
             players.add(new LobbyMenuPlayer(player, false, lobbyMenu));
             player.openInventory(lobbyMenu.getInventory());
@@ -47,11 +47,12 @@ public class UnoGameLobby {
     }
 
     public void start() {
-        if (players.stream().anyMatch(player -> !player.isReady()) || players.size() < 2 || players.size() > 10) return;
+        if (players.stream().anyMatch(player -> !player.isReady()) || players.size() < 2 || players.size() > 9) return;
         mcUnoPlayers.clear();
         for (LobbyMenuPlayer player : players) {
             mcUnoPlayers.add(new McUnoPlayer(player.getPlayer()));
         }
+        Collections.shuffle(mcUnoPlayers);
         McUnoGame junoGame = new McUnoGame(armorStand, mcUnoPlayers.toArray(new McUnoPlayer[0]));
         Bukkit.getServer().getScheduler().runTaskAsynchronously(MinecraftUno.INSTANCE, () -> {
             try {

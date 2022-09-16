@@ -7,6 +7,7 @@ import com.github.markozajc.juno.rules.pack.impl.UnoOfficialRules;
 import de.crazypokemondev.mcpaper.games.minecraftuno.MinecraftUno;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ArmorStandHelper;
 import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.IconHelper;
+import de.crazypokemondev.mcpaper.games.minecraftuno.helpers.ItemHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
@@ -74,6 +75,10 @@ public class McUnoGame extends UnoControlledGame {
                 onEvent("Oops, something went wrong. Please contact your server administrator.");
                 break;
         }
+
+        scheduler.runTask(MinecraftUno.INSTANCE,
+                () -> armorStand.setItem(EquipmentSlot.HEAD, ItemHelper.createUnoDeckArmorStand()));
+
         return winner;
     }
 }

@@ -1,5 +1,7 @@
 package de.crazypokemondev.mcpaper.games.minecraftuno.helpers;
 
+import org.bukkit.block.Block;
+
 import java.util.Objects;
 
 public class BlockPos {
@@ -11,6 +13,10 @@ public class BlockPos {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public BlockPos(Block block) {
+        this(block.getX(), block.getY(), block.getZ());
     }
 
     @Override
