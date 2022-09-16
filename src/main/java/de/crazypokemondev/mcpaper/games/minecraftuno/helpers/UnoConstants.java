@@ -8,4 +8,5 @@ public class UnoConstants {
     public static final String METADATA_KEY = "uno_deck";
     public static final NamespacedKey NAMESPACED_KEY
             = new NamespacedKey(MinecraftUno.INSTANCE, UnoConstants.METADATA_KEY);
+    public static final Integer CUSTOM_MODEL_DATA_DECK_PAPER = 9211999;
 }

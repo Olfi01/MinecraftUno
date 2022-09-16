@@ -62,6 +62,7 @@
   {"predicate": {"custom_model_data":9211524}, "model": "uno:item/wild_draw_4"},
   {"predicate": {"custom_model_data":9211534}, "model": "uno:item/wild_draw_4"},
   {"predicate": {"custom_model_data":9211544}, "model": "uno:item/wild_draw_4"},
-  {"predicate": {"custom_model_data":9211554}, "model": "uno:item/wild_draw_4"}
+  {"predicate": {"custom_model_data":9211554}, "model": "uno:item/wild_draw_4"},
+  {"predicate": {"custom_model_data":9211999}, "model": "uno:item/deck"}
   ]
 }
