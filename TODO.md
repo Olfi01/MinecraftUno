@@ -6,8 +6,6 @@
 
 ### See own cards when deciding whether to play the currently drawn card
 
-### Don't let the armor stand "suffocate"
-
 ### Fill the top row with gold blocks when somebody won
 
 

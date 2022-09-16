@@ -7,6 +7,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.EulerAngle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,9 +26,10 @@ public class ArmorStandHelper {
 
 
     public static void createArmorStand(World world, Location blockLoc) {
-        Location armorStandLoc = blockLoc.clone().add(0.5, -1.1, 1.25);
+        Location armorStandLoc = blockLoc.clone().add(-0.06, -1.1, 1.06);
 
         ArmorStand armorStand = (ArmorStand)world.spawnEntity(armorStandLoc, EntityType.ARMOR_STAND);
+        armorStand.setRotation(45, 0);
         armorStand.setHeadPose(new EulerAngle(-Math.PI / 2, 0, 0));
         armorStand.setItem(EquipmentSlot.HEAD, ItemHelper.createUnoDeckArmorStand());
 
