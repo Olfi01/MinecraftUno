@@ -25,6 +25,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
     private final ScrollButton pageButton;
     private int cardOffset = 0;
     private boolean waitingForAction = false;
+    private boolean finished = false;
     private final WaitingIndicatorButton waitingButton;
 
     public UnoScreen(McUnoGame game, McUnoPlayer player) {
@@ -87,6 +88,10 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
     private void stopWaiting() {
         this.waitingForAction = false;
         waitingButton.update();
+    }
+
+    public void setFinished() {
+        this.finished = true;
     }
 
     private class DrawPileButton extends ItemButton<UnoScreen> {
@@ -180,12 +185,13 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
     private class WaitingIndicatorButton extends ItemButton<UnoScreen> {
         ItemStack notWaitingIcon = new ItemBuilder(Material.RED_CONCRETE).name("Not your turn").build();
         ItemStack waitingIcon = new ItemBuilder(Material.LIME_CONCRETE).name("Your turn").build();
+        ItemStack finishedIcon = new ItemBuilder(Material.GOLD_BLOCK).name("The game is finished!").build();
         public WaitingIndicatorButton() {
             setIcon(notWaitingIcon);
         }
 
         public void update() {
-            setIcon(waitingForAction ? waitingIcon : notWaitingIcon);
+            setIcon(finished ? finishedIcon : waitingForAction ? waitingIcon : notWaitingIcon);
         }
     }
 

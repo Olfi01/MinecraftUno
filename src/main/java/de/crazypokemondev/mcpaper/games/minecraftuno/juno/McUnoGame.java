@@ -57,6 +57,7 @@ public class McUnoGame extends UnoControlledGame {
         UnoWinner winner = super.play();
         getPlayers().forEach(player -> {
             McUnoPlayer unoPlayer = ((McUnoPlayer) player);
+            unoPlayer.getUnoScreen().setFinished();
             unoPlayer.getUnoScreen().update();
         });
         switch (winner.getEndReason()) {
