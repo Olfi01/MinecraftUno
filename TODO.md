@@ -14,3 +14,5 @@
 ### Everyone should be able to see the cards during the very first turn -> requires juno change
 
 ### When opening the GUI, your head should immediately be there as "not ready"
+
+### Scroll buttons don't work properly
