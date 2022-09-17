@@ -62,9 +62,16 @@ shadowJar {
     relocate 'com.jeff_media.customblockdata', 'de.crazypokemondev.mcpaper.games.minecraftuno.customblockdata'
 }
 
+task cleanOldVersions(type: Delete) {
+    delete fileTree(local_plugin_path) {
+        include "MinecraftUno*.jar"
+    }
+}
+
 task deployForTest(type: Copy) {
-    from 'build/libs'
+    from shadowJar.outputs
     into local_plugin_path
     include '*-all.jar'
     dependsOn shadowJar
+    dependsOn cleanOldVersions
 }
