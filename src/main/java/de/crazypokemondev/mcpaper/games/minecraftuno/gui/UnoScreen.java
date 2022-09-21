@@ -54,7 +54,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
 
     private void setUnoCardButtons() {
         Iterator<UnoCard> cards = player.getCards().iterator();
-        for (int i = 0; i < cardOffset * 9; i++) {
+        for (int i = 0; i < cardOffset * 8; i++) {
             if (!iterator().hasNext()) break;
             cards.next();
         }
@@ -160,6 +160,7 @@ public class UnoScreen extends MenuHolder<MinecraftUno> {
             icon.setAmount(cardOffset + 1);
             icon.getItemMeta().displayName(Component.text(cardOffset + 1));
             pageButton.setIcon(icon);
+            setUnoCardButtons();
         }
     }
 
